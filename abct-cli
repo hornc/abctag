@@ -1,0 +1,8 @@
+#!/usr/bin/env python3
+import sys
+from abct.abct import pn, dn
+from abct.output import abct_out, bct, has_out
+
+p, d = (int(a) for a in sys.argv[1:3])
+
+while d: print('%s\t%s\t%s%s' % (p, d, bct(d), ' OUTPUT>>> %s' % abct_out(d).decode()[abct_out(d).decode().rfind('\x02')+1:] if has_out(p, d) else '')); p, d = (pn(p), dn(p, d))
