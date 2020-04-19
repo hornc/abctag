@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 from abct.abct import pn, dn
-from abct.output import abct_out, has_out
+from abct.output import bct, bin_to_bb2, abct_out, has_out
 
 from http.server import SimpleHTTPRequestHandler
 import json
@@ -22,27 +22,40 @@ class ABCTserver(SimpleHTTPRequestHandler):
         self._set_headers()
 
     def do_GET(self):
+        PATH_RE = re.compile(r'/(b/)?(\d+)/(b/)?(\d+)')
         output = None
+        c = {}
         try:
-            p, d = (int(v) for v in self.path.split('/')[1:3])
-            output = abct_out(d) if has_out(p, d) else None
-            r = 200
-            if d > 0:
-                d = dn(p, d)
+            p_bin, p, d_bin, d = PATH_RE.match(self.path).groups()
+            if p_bin or d_bin:
                 r = 303
+                # path/data contains a BCT binary portion, convert and redirect
+                p = bin_to_bb2(p) if p_bin else p
+                d = bin_to_bb2(d) if d_bin else d
                 self.send_response(r)
-                self.send_header('Location', '/%d/%d/' % (pn(p), d))
-            c = {'program': pn(p), 'data': d}
-            if output:
-                print('OUTPUT: %s' % output.decode())
-                c['output'] = output.decode('utf8')
-                self.send_header('Set-Cookie', 'output=%s' % output.decode('unicode-escape'))
+                self.send_header('Location', '/%s/%s/' % (p, d))
+            else:
+                p = int(p)
+                d = int(d)
+                c = {'program': bct(p), 'data': bct(d)}
+                output = abct_out(d) if has_out(p, d) else None
+                r = 200
+                if d > 0:
+                    d = dn(p, d)
+                    r = 303
+                    self.send_response(r)
+                    self.send_header('Location', '/%d/%d/' % (pn(p), d))
+                if output:
+                    print('OUTPUT: %s' % output.decode())
+                    c['output'] = output.decode('utf8')
+                    self.send_header('Set-Cookie', 'output=%s' % output.decode('unicode-escape'))
         except Exception as e:
             raise e
             self.log_error('%s: %s', self.path, e)
             r = 400
             c = {'error': 'expecting URL path /<program (int)>/<data (int)>'}
-        self.send_response(r)
+        if r != 303:
+            self.send_response(r)
         self._set_headers()
         self.wfile.write(json.dumps(c, ensure_ascii=False).encode('utf8'))
 
