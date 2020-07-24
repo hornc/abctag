@@ -11,7 +11,7 @@ import sys
 
 
 PORT = int(os.environ.get('PORT') or sys.argv[1])
-
+WELCOME = {'description': 'Welcome to Arithmetic Bitwise Cyclic Tag over HTTP webservice. Expect redirects. Inspect cookies.'}
 
 class ABCTserver(SimpleHTTPRequestHandler):
     def _set_headers(self):
@@ -51,10 +51,13 @@ class ABCTserver(SimpleHTTPRequestHandler):
                     c['output'] = output.decode('utf8')
                     self.send_header('Set-Cookie', 'output=%s' % output.decode('unicode-escape'))
         except Exception as e:
-            raise e
-            self.log_error('%s: %s', self.path, e)
-            r = 400
-            c = {'error': 'expecting URL path /<program (int)>/<data (int)>'}
+            if self.path == '/':
+                c = WELCOME
+                r = 200
+            else:
+                self.log_error('%s: %s', self.path, e)
+                r = 400
+                c = {'error': 'expecting URL path /<program (int)>/<data (int)>'}
         if r != 303:
             self.send_response(r)
         self._set_headers()
