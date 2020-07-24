@@ -4,12 +4,13 @@ from abct.output import bct, bin_to_bb2, abct_out, has_out
 
 from http.server import SimpleHTTPRequestHandler
 import json
+import os
 import re
 import socketserver
 import sys
 
 
-PORT = int(sys.argv[1])
+PORT = int(os.environ.get('PORT') or sys.argv[1])
 
 
 class ABCTserver(SimpleHTTPRequestHandler):
