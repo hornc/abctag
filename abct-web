@@ -26,6 +26,8 @@ class ABCTserver(SimpleHTTPRequestHandler):
         PATH_RE = re.compile(r'/(b/)?(\d+)/(b/)?(\d+)')
         output = None
         c = {}
+        if self.path.endswith('.ico'):
+            self.favicon()
         try:
             p_bin, p, d_bin, d = PATH_RE.match(self.path).groups()
             if p_bin or d_bin:
@@ -63,6 +65,13 @@ class ABCTserver(SimpleHTTPRequestHandler):
         self._set_headers()
         self.wfile.write(json.dumps(c, ensure_ascii=False).encode('utf8'))
 
+    def favicon(self):
+        with open('public/favicon.png', 'rb') as f:
+            self.send_response(200)
+            self.send_header('Content-type', 'image/png')
+            self.end_headers()
+            self.wfile.write(f.read())
+        return
 
 with socketserver.TCPServer(('', PORT), ABCTserver) as httpd:
     print('Arithmetic Bitwise Cycle Tag Server listening on port', PORT)
