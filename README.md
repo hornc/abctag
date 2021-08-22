@@ -79,7 +79,7 @@ For our data strings: data is appended as the MSB, and deletions occur at the LS
 
 There is also a command line utility for testing
 
-    ./abct-cli $(cat examples/hello-world.abct) 2
+    ./abct-cli $(<examples/hello-world.abct) 2
     
 2 is the initial data value representing a binary bitstring `1`
 
