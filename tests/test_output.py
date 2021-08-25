@@ -18,8 +18,10 @@ hw = [
         '1 00000011 0'   # 0x03 ETX
         ]
 
+
 class Test_ABCT_output:
     hw = 3928440351693569184044057579967756650479167746
+
     def test_abct_out(self):
         assert has_out(5, self.hw)
         assert abct_out(self.hw).decode() == 'Hello, World!'
