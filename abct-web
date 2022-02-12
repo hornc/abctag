@@ -74,5 +74,5 @@ class ABCTserver(SimpleHTTPRequestHandler):
         return
 
 with socketserver.TCPServer(('', PORT), ABCTserver) as httpd:
-    print('Arithmetic Bitwise Cycle Tag Server listening on port', PORT)
+    print('Arithmetic Bitwise Cyclic Tag Server listening on port', PORT)
     httpd.serve_forever()
