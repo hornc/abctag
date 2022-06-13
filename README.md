@@ -77,7 +77,7 @@ For our data strings: data is appended as the MSB, and deletions occur at the LS
 
 ## CLI version
 
-There is also a command line utility for testing
+There is also a command line utility for testing:
 
     ./abct-cli $(<examples/hello-world.abct) 2
     
@@ -88,3 +88,27 @@ There is also a command line utility for testing
 0 represents the empty datastring, or `null`, and is the halt condtion.
 
 Arithmetic BCT programs require an initial starting input of at least 2 to perform any active computation.
+
+### Truth machine example usage
+
+For the 'zero' case (BCT `10` = bijective base-2 `12` = input value `4`):
+
+    ./abct-cli $(<examples/truth-machine.abct) 4 | grep OUTPUT
+
+which gives a single output line:
+
+    39217909666694773142903776444132544299164543308230190564477239295	3026142152962	11000000100100110000010000101001000000110 OUTPUT>>> 0
+
+For the 'one' case (BCT `11` = bijective base-2 `22` = input value `6`):
+
+    ./abct-cli $(<examples/truth-machine.abct) 6 | grep OUTPUT
+ 
+ which repeats indefinitely:
+ 
+     39217909666697766298257028305177290289800352374943150376712755052	12104570709002	1101000000100100110001010000101001000000110 OUTPUT>>> 1
+ 
+ The CLI output columns represent:
+ * PROGRAM VALUE
+ * DATA VALUE
+ * DATA as binary
+ * encoded OUTPUT completed on this step, if any (tagged with `OUTPUT>>>`) 
