@@ -108,8 +108,8 @@ For the 'one' case (BCT `11` = bijective base-2 `22` = input value `6`):
     39217909666697766298257028305177290289800352374943150376712755052	12104570709002	1101000000100100110001010000101001000000110	OUTPUT>>>	1
  
  The CLI output columns represent:
- * PROGRAM VALUE
- * DATA VALUE
- * DATA as binary
- * The string "OUTPUT>>>" if any output was completed on this step
- * The encoded OUTPUT completed on this step, if any
+ * PROGRAM VALUE.
+ * DATA VALUE.
+ * DATA as binary.
+ * The string `OUTPUT>>>` if any output was completed on this step.
+ * Decoded OUTPUT, if any.
