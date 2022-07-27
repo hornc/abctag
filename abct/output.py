@@ -1,6 +1,4 @@
-#from abct.abct import s
-
-s = lambda x: len(bct(x))
+from abct.abct import s
 
 # Convert bijective base-2 numeric value to BCT string over {0, 1}
 def nonrec_bct(i, s=''):
