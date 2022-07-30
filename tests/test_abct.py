@@ -1,6 +1,14 @@
 import pytest
 from abct.abct import r, s
-from abct.output import bct
+
+
+# Convert bijective base-2 numeric value to BCT string over {0, 1}
+def bct(i):
+    s = ''
+    while i:
+        s = s + str((i + 1) % 2)
+        i = (i - 2 * ((i + 1) % 2)) // 2
+    return s
 
 
 class TestRotateProgram:
