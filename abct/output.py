@@ -1,7 +1,7 @@
 from abct.abct import s
 
 # Convert bijective base-2 numeric value to BCT string over {0, 1}
-bct = lambda i, s='': bct((i - 2 * ((i + 1) % 2)) // 2, '%s%d' % (s, (i + 1) % 2)) if i else s
+bct = lambda i, s='': bct((i - 2 * ((i + 1) % 2)) // 2, f'{s}{(i + 1) % 2}') if i else s
 # Convert BCT binary string into bijective base-2 integer
 bin_to_bb2 = lambda s: sum([int(c) * 2 ** i for i,c in enumerate(s.replace(' ', '').replace('1', '2').replace('0', '1'))])
 # Output encoded BCT bytes (with STX=\x02, ETX=\x03, start bit = 1, stop bit = 0 checking):
