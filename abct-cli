@@ -6,4 +6,4 @@ from abct.output import abct_out, bct, has_out
 out = 'OUTPUT>>>\t'
 p, d = (int(a) for a in sys.argv[1:3])
 
-while d: print(f'{bct(p)}\t{d}\t{bct(d)}\t{out + abct_out(d).decode()[abct_out(d).decode().rfind(chr(2))+1:] if has_out(p, d) else ""}'); p, d = (pn(p), dn(p, d))
+while d: print(f'{p}\t{d}\t{bct(d)}\t{out + abct_out(d).decode()[abct_out(d).decode().rfind(chr(2))+1:] if has_out(p, d) else ""}'); p, d = (pn(p), dn(p, d))
